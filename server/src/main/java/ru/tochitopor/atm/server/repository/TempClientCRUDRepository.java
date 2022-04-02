@@ -1,11 +1,15 @@
 package ru.tochitopor.atm.server.repository;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 import ru.tochitopor.atm.server.entity.Score;
 import ru.tochitopor.atm.server.entity.Client;
 
 import java.util.*;
 
-public class TempClientCrudRepository implements ClientCRUDRepository{
+@Service
+@Primary
+public class TempClientCRUDRepository implements ClientCRUDRepository{
 
     private static List<Client> dataBase = new ArrayList<>();
     static{
@@ -26,7 +30,7 @@ public class TempClientCrudRepository implements ClientCRUDRepository{
         set1.add(a2);
 
         List<Score> set2 = new ArrayList<>();
-        set1.add(a3);
+        set2.add(a3);
 
 
         Client c1 = new Client();
@@ -35,9 +39,9 @@ public class TempClientCrudRepository implements ClientCRUDRepository{
         c1.setScores(set1);
 
         Client c2 = new Client();
-        c1.setId(2L);
-        c1.setPIN(5678);
-        c1.setScores(set2);
+        c2.setId(2L);
+        c2.setPIN(5678);
+        c2.setScores(set2);
 
         dataBase.add(c1);
         dataBase.add(c2);

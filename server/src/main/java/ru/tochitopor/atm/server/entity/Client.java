@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Client {
-    private Long Id;
+    private long Id;
     private int PIN;
     private List<Score> scores;
 }
