@@ -21,7 +21,6 @@ public class ServerService {
         return client.getPIN() == PIN;
     }
 
-    // этот метод надо будет переделать под jdbc
     public Score getScore(Client client, int scoreId){
         for(Score score : client.getScores()){
             if(score.getId() == scoreId)
