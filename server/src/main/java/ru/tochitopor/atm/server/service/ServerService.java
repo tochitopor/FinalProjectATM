@@ -1,6 +1,7 @@
 package ru.tochitopor.atm.server.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import ru.tochitopor.atm.server.entity.Client;
 import ru.tochitopor.atm.server.entity.Score;
@@ -10,6 +11,7 @@ import ru.tochitopor.atm.server.repository.ClientCRUDRepository;
 
 @Service
 @AllArgsConstructor
+@Log
 public class ServerService {
     private ClientCRUDRepository clientCrudRepository;
 
@@ -18,7 +20,11 @@ public class ServerService {
     }
 
     public boolean checkPIN(Client client, int PIN){
-        return client.getPIN() == PIN;
+        if(client.getPIN() != PIN){
+            log.info("Invalid PIN - " + PIN);
+            throw new InvalidPINException("Invalid PIN");
+        }
+        return true;
     }
 
     public Score getScore(Client client, int scoreId){

@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "Clients")
@@ -14,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Client {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue
     private Long Id;
 

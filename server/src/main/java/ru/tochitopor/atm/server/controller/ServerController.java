@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.tochitopor.atm.common.GetBalanceReqstDTO;
 import ru.tochitopor.atm.common.GetBalanceRespnsDTO;
 import ru.tochitopor.atm.server.entity.Client;
-import ru.tochitopor.atm.server.exception.InvalidPINException;
 import ru.tochitopor.atm.server.service.ServerService;
 
 
@@ -28,15 +27,13 @@ public class ServerController {
         log.info(request.toString());
 
         Client client = serverService.getClient(request.getClientId());
-        if(serverService.checkPIN(client,request.getPin())){
-            GetBalanceRespnsDTO response = new GetBalanceRespnsDTO(serverService.getScore(client, request.getScoreId()).getBalance());
+        serverService.checkPIN(client,request.getPin());
 
-            log.info(response.toString());
+        GetBalanceRespnsDTO response = new GetBalanceRespnsDTO(serverService.getScore(client, request.getScoreId()).getBalance());
 
-            return response;
-        }
-        else
-            throw new InvalidPINException("Invalid PIN");
+        log.info(response.toString());
+
+        return response;
 
 
     }
