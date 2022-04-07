@@ -4,18 +4,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import ru.tochitopor.atm.server.controller.ServerController;
 import ru.tochitopor.atm.server.entity.Client;
 import ru.tochitopor.atm.server.entity.Score;
 import ru.tochitopor.atm.server.exception.ClientNotFoundException;
 import ru.tochitopor.atm.server.exception.InvalidPINException;
+import ru.tochitopor.atm.server.exception.ScoreNotFoundException;
 import ru.tochitopor.atm.server.repository.ClientCRUDRepository;
 import ru.tochitopor.atm.server.service.ServerService;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 import java.util.*;
-
-import static org.mockito.ArgumentMatchers.anyLong;
 
 
 public class ServerServiceTest {
@@ -31,52 +30,80 @@ public class ServerServiceTest {
 
 
     @Test
-    public void getClientTest(){
-        /*int clientID = 1;
-        int scoreId  = 1;
-        int PIN = 1234;
-        int balance = 1000;
+    //совершенно бессмысленный тест проверяющий перекладку объекта
+    public void getClientSuccessTest() {
+        long clientId = 1L;
+        Client client = new Client(clientId,1234,null);
+        Score score1 = new Score(1L,2000, client);
+        client.setScores(new ArrayList<Score>(){{add(score1);}});
 
-        Client client = new Client();
-        client.setId((long) clientID);
-        client.setPIN(PIN);
-
-        List<Score> scores = Collections.singletonList(
-                new Score((long) scoreId, balance, client)
-        );
-
-        client.setScores(scores);
-
-        Mockito.when(clientCrudRepository.findById(anyLong()))
+        Mockito.when(clientCrudRepository.findById(clientId))
                 .thenReturn(Optional.of(client));
 
         assertEquals(client,
-                serverService.getClient(2));*/
+                serverService.getClient(clientId));
+
+    }
+
+    @Test
+    //и еще один бессмысленный тест проверяющий перекладку объекта
+    public void getClientFailureTest() {
+        long clientId = 1L;
+        Client client = new Client(clientId,1234,null);
+        Score score1 = new Score(1L,2000, client);
+        client.setScores(new ArrayList<Score>(){{add(score1);}});
+
+        Mockito.when(clientCrudRepository.findById(anyLong()))
+                .thenThrow(new ClientNotFoundException());
+
+        ClientNotFoundException ex = assertThrows(ClientNotFoundException.class,()->
+                serverService.getClient(clientId));
+
+        assertEquals(ClientNotFoundException.class, ex.getClass());
 
     }
 
     @Test
     public void checkPINSuccessTest(){
-        Client client = new Client();
-        client.setId(1L);
-        client.setPIN(1234);
+        Client client = new Client(1L,1234,null);
+        int PIN = 1234;
 
-        assertTrue(serverService.checkPIN(client, 1234));
+        assertTrue(serverService.checkPIN(client, PIN));
     }
 
     @Test
     public void checkPINFailureTest(){
-        Client client = new Client();
-        client.setId(1L);
-        client.setPIN(1234);
+        Client client = new Client(1L,1234,null);
+        int PIN = 1235;
 
         InvalidPINException ex = assertThrows(InvalidPINException.class,()->
-                serverService.checkPIN(client, 1235));
+                serverService.checkPIN(client, PIN));
 
-        assertEquals("Invalid PIN", ex.getMessage());
+        assertEquals(InvalidPINException.class, ex.getClass());
     }
 
     @Test
-    public void getScoreTest(){
+    public void getScoreSuccesTest(){
+        Client client = new Client(1L,1234,null);
+        Score score1 = new Score(1L,2000, client);
+        Score score2 = new Score(2L,1000, client);
+        client.setScores(new ArrayList<Score>(){{add(score1);add(score2);}});
+        int scoreId = 2;
+
+        assertEquals(score2,serverService.getScore(client,scoreId));
+    }
+
+    @Test
+    public void getScoreFailureTest(){
+        Client client = new Client(1L,1234,null);
+        Score score1 = new Score(1L,2000, client);
+        Score score2 = new Score(2L,1000, client);
+        client.setScores(new ArrayList<Score>(){{add(score1);add(score2);}});
+        int scoreId = 3;
+
+        ScoreNotFoundException ex = assertThrows(ScoreNotFoundException.class,()->
+                serverService.getScore(client,scoreId));
+
+        assertEquals(ScoreNotFoundException.class, ex.getClass());
     }
 }

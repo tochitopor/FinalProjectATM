@@ -7,6 +7,7 @@ import ru.tochitopor.atm.server.entity.Client;
 import ru.tochitopor.atm.server.entity.Score;
 import ru.tochitopor.atm.server.exception.ClientNotFoundException;
 import ru.tochitopor.atm.server.exception.InvalidPINException;
+import ru.tochitopor.atm.server.exception.ScoreNotFoundException;
 import ru.tochitopor.atm.server.repository.ClientCRUDRepository;
 
 @Service
@@ -15,16 +16,17 @@ import ru.tochitopor.atm.server.repository.ClientCRUDRepository;
 public class ServerService {
     private ClientCRUDRepository clientCrudRepository;
 
-    public Client getClient(int id){
-        return clientCrudRepository.findById((long)id).orElseThrow(ClientNotFoundException::new);
+    public Client getClient(long id){
+        return clientCrudRepository.findById(id).orElseThrow(ClientNotFoundException::new);
     }
 
     public boolean checkPIN(Client client, int PIN){
-        if(client.getPIN() != PIN){
-            log.info("Invalid PIN - " + PIN);
-            throw new InvalidPINException("Invalid PIN");
+        if(client.getPIN() == PIN){
+            return true;
         }
-        return true;
+        String error = "Client " + client.getId() + ", Invalid PIN - " + PIN;
+        log.info(error);
+        throw new InvalidPINException(error);
     }
 
     public Score getScore(Client client, int scoreId){
@@ -33,6 +35,8 @@ public class ServerService {
                 return score;
         }
 
-        throw new InvalidPINException("Invalid scoreId");
+        String error = "Client " + client.getId() + ", Invalid scoreId - " + scoreId;
+        log.info(error);
+        throw new ScoreNotFoundException(error);
     }
 }
