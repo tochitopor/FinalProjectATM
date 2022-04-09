@@ -34,8 +34,8 @@ public class ClientController {
 
     @GetMapping("/clients/{clientId}/scores/{scoreId}/{PIN}")
     public int getClientBalance(
-            @PathVariable("clientId") int clientId,
-            @PathVariable("scoreId") int scoreId,
+            @PathVariable("clientId") long clientId,
+            @PathVariable("scoreId") long scoreId,
             @PathVariable("PIN") int PIN) {
 
         log.info("clientId " + clientId + " scoreId " + scoreId + " PIN " + PIN);
@@ -43,13 +43,13 @@ public class ClientController {
         HttpEntity<GetBalanceReqstDTO> request =
                 new HttpEntity<>(new GetBalanceReqstDTO(clientId,  scoreId, PIN));
 
-        log.info("request.toString()" + request.toString());
+        log.info("request.toString()" + request);
 
         GetBalanceRespnsDTO response;
 
         try {
             response = restTemplate.postForObject(
-                    "http://localhost:8082/host/clients/getBalance", request, GetBalanceRespnsDTO.class);
+                    LOCAL_HOST + "/host/clients/getBalance", request, GetBalanceRespnsDTO.class);
         }
         catch (RestClientException e){
             log.warning(e.getMessage());

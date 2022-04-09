@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import ru.tochitopor.atm.common.GetBalanceReqstDTO;
+import ru.tochitopor.atm.common.GetBalanceRespnsDTO;
 import ru.tochitopor.atm.server.controller.ServerController;
 import ru.tochitopor.atm.server.entity.Client;
 import ru.tochitopor.atm.server.entity.Score;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 public class ServerControllerTest {
@@ -35,30 +37,20 @@ public class ServerControllerTest {
 
     @Test
     public void getBalanceTestClientIdExist(){
-      /*  int clientID = 1;
-        int scoreId  = 1;
+        long clientId = 1L;
+        long scoreId  = 1L;
         int PIN = 1234;
         int balance = 1000;
 
-        Client client = new Client();
-        Score score = new Score();
-        score.setId((long)scoreId);
-        score.setBalance(balance);
-        score.setClient_id(client);
-        List<Score> scores = new ArrayList<>();
-        scores.add(score);
-        client.setId((long) clientID);
-        client.setPIN(PIN);
-        client.setScores(scores);
+        Client client = new Client(clientId,PIN,null);
+        Score score = new Score(scoreId,balance, client);
+        client.setScores(new ArrayList<Score>(){{add(score);}});
 
-        GetBalanceReqstDTO request = new GetBalanceReqstDTO(clientID,scoreId,PIN);
+        GetBalanceReqstDTO request = new GetBalanceReqstDTO(clientId,scoreId,PIN);
 
-        Mockito.when(accountService.findByCardNumber(account.getCardNumber())).thenReturn(Optional.of(account));
-        when(serverService.getClient(request.getClientId())).thenReturn(client);
-        //when(serverService.checkPIN(client,request.getPin()).thenReturn(true);
+        when(serverService.getClient(anyLong())).thenReturn(client);
+        when(serverService.getScore(client, request.getScoreId())).thenReturn(score);
 
-       // serverController.getBalance(request);*/
-
-
+        assertEquals(serverController.getBalance(request).getBalance(), balance);
     }
 }

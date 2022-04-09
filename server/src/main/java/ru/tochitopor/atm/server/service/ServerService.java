@@ -29,7 +29,7 @@ public class ServerService {
         throw new InvalidPINException(error);
     }
 
-    public Score getScore(Client client, int scoreId){
+    public Score getScore(Client client, long scoreId){
         for(Score score : client.getScores()){
             if(score.getId() == scoreId)
                 return score;

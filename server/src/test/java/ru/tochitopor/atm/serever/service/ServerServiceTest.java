@@ -88,7 +88,7 @@ public class ServerServiceTest {
         Score score1 = new Score(1L,2000, client);
         Score score2 = new Score(2L,1000, client);
         client.setScores(new ArrayList<Score>(){{add(score1);add(score2);}});
-        int scoreId = 2;
+        long scoreId = 2;
 
         assertEquals(score2,serverService.getScore(client,scoreId));
     }
@@ -99,7 +99,7 @@ public class ServerServiceTest {
         Score score1 = new Score(1L,2000, client);
         Score score2 = new Score(2L,1000, client);
         client.setScores(new ArrayList<Score>(){{add(score1);add(score2);}});
-        int scoreId = 3;
+        long scoreId = 3;
 
         ScoreNotFoundException ex = assertThrows(ScoreNotFoundException.class,()->
                 serverService.getScore(client,scoreId));
