@@ -28,7 +28,7 @@ public class ClientController {
     private final String LOCAL_HOST = "http://127.0.0.1:8082";
 
     @GetMapping()
-    public String getHostsInfo() {
+    public String getATMInfo() {
         return "Russian Moscow ATM Test 8081";
     }
 

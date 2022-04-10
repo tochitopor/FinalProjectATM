@@ -83,7 +83,7 @@ public class ServerServiceTest {
     }
 
     @Test
-    public void getScoreSuccesTest(){
+    public void getScoreSuccessTest(){
         Client client = new Client(1L,1234,null);
         Score score1 = new Score(1L,2000, client);
         Score score2 = new Score(2L,1000, client);

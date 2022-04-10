@@ -31,12 +31,12 @@ public class ServerControllerTest {
     }
 
     @Test
-    public void getHostsInfo(){
+    public void getHostsInfoTest(){
         assertEquals( "Russian Moscow Host Test 8082", serverController.getHostsInfo());
     }
 
     @Test
-    public void getBalanceTestClientIdExist(){
+    public void getBalanceSuccessTest(){
         long clientId = 1L;
         long scoreId  = 1L;
         int PIN = 1234;
