@@ -18,7 +18,6 @@ public class ServerController {
 
     @GetMapping()
     public String getHostsInfo() {
-
         return "Russian Moscow Host Test 8082";
     }
 
@@ -34,8 +33,5 @@ public class ServerController {
         log.info(response.toString());
 
         return response;
-
-
     }
-
 }

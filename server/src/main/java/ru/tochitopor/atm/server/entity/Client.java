@@ -21,6 +21,6 @@ public class Client {
 
     private int PIN;
 
-    @OneToMany(mappedBy = "client_id")
+    @OneToMany(mappedBy = "client")
     private List<Score> scores;
 }

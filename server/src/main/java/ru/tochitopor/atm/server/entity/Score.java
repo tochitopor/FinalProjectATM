@@ -22,5 +22,5 @@ public class Score {
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
-    private Client client_id;
+    private Client client;
 }
